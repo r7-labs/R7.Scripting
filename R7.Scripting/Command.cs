@@ -22,6 +22,7 @@
 using System;
 using System.IO;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace R7.Scripting
 {
@@ -124,6 +125,36 @@ namespace R7.Scripting
 			return result;
 		}
 
+		private static List<string> RunToLines (string command, string arguments, int waitms =-1)
+		{	
+			var result = new List<string> ();
+			if (waitms < 0) waitms = defaultWaitTime;
+
+			var process = new Process ();
+			process.StartInfo.FileName = command;
+			process.StartInfo.Arguments = arguments;
+			process.StartInfo.UseShellExecute = false;
+			process.StartInfo.RedirectStandardOutput = true;
+
+			try 
+			{
+				process.Start ();
+				if	(process.WaitForExit (waitms))
+				{
+					while (!process.StandardOutput.EndOfStream)
+						result.Add (process.StandardOutput.ReadLine ());
+				}
+			}
+			catch
+			{
+			}
+			finally
+			{
+				process.Close ();
+			}
+
+			return result;
+		}
 
 	} // class 
 } // namespace
