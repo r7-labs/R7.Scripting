@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{024A8D95-F513-488A-B52B-7E29AD20FDB5}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -12,6 +12,7 @@
     <SignAssembly>False</SignAssembly>
     <AssemblyOriginatorKeyFile>R7.Scripting.key</AssemblyOriginatorKeyFile>
     <ReleaseVersion>1.0.0</ReleaseVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
