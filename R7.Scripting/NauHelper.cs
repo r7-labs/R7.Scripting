@@ -37,7 +37,7 @@ namespace R7.Scripting
 	*/
 
 	// THINK: Support Marlin?
-	public enum FileManager { Unknown, Nautilus, Nemo, Marlin }
+	public enum FileManager { Unknown, Nautilus, Nemo }
 
 	// TODO: Rename to FileManager?
 	// TODO: Unmake static?
@@ -56,7 +56,7 @@ namespace R7.Scripting
 				if (version == null)
 				{
 					version = new Version (
-						Regex.Match (Command.RunToString (FileManager.ToString().ToLowerInvariant(), "--version"), @"\d\.\d\.\d").Value
+						Regex.Match (Command.RunToString (FileManager.ToString().ToLowerInvariant(), "--version"), @"\d+\.\d+\.\d+").Value
 					);
 				}
 				return version;
@@ -93,24 +93,20 @@ namespace R7.Scripting
 
 		public static string ScriptDirectory
 		{
-			get 
+			get
 			{
-				if (FileManager == FileManager.Nautilus)
-				if (Version.Major >= 3 && Version.Minor >= 6)
+				// TODO: Support Caja
+				switch (FileManager)
 				{
-					// in Nautilus 3.6 location of scripts directory changed
-					return Path.Combine (Environment.GetEnvironmentVariable ("HOME"), ".local/share/nautilus/scripts");
+					case FileManager.Nautilus:
+						return Path.Combine (Environment.GetEnvironmentVariable ("HOME"), ".local/share/nautilus/scripts");
+
+					case FileManager.Nemo:
+						return Path.Combine (Environment.GetEnvironmentVariable ("HOME"), ".local/share/nemo/scripts");
+
+					default:
+						throw new NotSupportedException ("NauHelper.SciptDirectory support only Nautilus & Nemo file managers");
 				}
-				else
-				{
-					return Path.Combine (Environment.GetEnvironmentVariable ("HOME"), ".gnome2/nautilus-scripts");
-				}
-				else if (FileManager == FileManager.Nemo)
-				{
-					return Path.Combine (Environment.GetEnvironmentVariable ("HOME"), ".gnome2/nemo-scripts");
-				}
-				else
-					return string.Empty;
 			}
 		}
 
@@ -175,7 +171,6 @@ namespace R7.Scripting
 			
 			return url;
 		}
-
 			
 		public static string UrlDecode (string url)
 		{
