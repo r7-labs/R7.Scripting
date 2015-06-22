@@ -36,7 +36,7 @@ namespace R7.Scripting
 			set { defaultWaitTime = value; }
 		}
 
-		public static int Run (string command, string arguments, int waitms = -1)//, bool shellExecute = true)
+		public static int Run (string command, string arguments, int waitms = -1)
 		{
 			var exitCode = 1;
 
@@ -45,7 +45,7 @@ namespace R7.Scripting
 			var process = new Process ();
 			process.StartInfo.FileName = command;
 			process.StartInfo.Arguments = arguments;
-			// process.StartInfo.UseShellExecute = shellExecute;
+			process.StartInfo.UseShellExecute = false;
 			process.Start ();
 
 			if (process.WaitForExit (waitms))
