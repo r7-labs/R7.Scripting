@@ -51,6 +51,8 @@
     <Compile Include="Log.cs" />
     <Compile Include="TextUtils.cs" />
     <Compile Include="Envar.cs" />
+    <Compile Include="Script.cs" />
+    <Compile Include="FileProcessingScript.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

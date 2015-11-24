@@ -32,7 +32,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = R7.Scripting\R7.Scripting.csproj
 		Policies = $0
 		$0.DotNetNamingPolicy = $1
 		$1.DirectoryNamespaceAssociation = None
@@ -48,5 +47,6 @@ Global
 		$5.LineAlign = 0
 		$4.inheritsSet = Mono
 		version = 1.0.0
+		StartupItem = R7.Scripting\R7.Scripting.csproj
 	EndGlobalSection
 EndGlobal
