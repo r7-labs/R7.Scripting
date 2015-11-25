@@ -20,12 +20,16 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.IO;
+using System.Linq;
 
 namespace R7.Scripting
 {
     public abstract class FileProcessingScript: Script
     {
         public string [] Files { get; protected set; }
+
+        public string [] AllowedExtensions { get; protected set; }
 
         public bool ContinueOnErrors { get; protected set; }
 
@@ -38,11 +42,21 @@ namespace R7.Scripting
         {
             foreach (var file in Files)
             {
-                int result;
+                int result = 0;
 
                 try
                 {
-                    result = ProcessFile (file);
+                    bool allowProcessFile = true;
+
+                    if (AllowedExtensions != null)
+                    {
+                        var ext = Path.GetExtension (file).ToLowerInvariant ();
+                        allowProcessFile = null != AllowedExtensions.FirstOrDefault (e => e == ext);
+                    }
+
+                    if (allowProcessFile) {
+                        result = ProcessFile (file);
+                    }
                 }
                 catch (Exception ex)
                 {
