@@ -33,7 +33,7 @@
     <ConsolePause>False</ConsolePause>
     <CustomCommands>
       <CustomCommands>
-        <Command type="AfterBuild" command="cp -f ${TargetFile} /home/redhound/.config/csharp" workingdir="${TargetDir}" />
+        <Command type="AfterBuild" command="cp -f &quot;${TargetFile}&quot; /home/redhound/.config/csharp" workingdir="${TargetDir}" />
       </CustomCommands>
     </CustomCommands>
   </PropertyGroup>
