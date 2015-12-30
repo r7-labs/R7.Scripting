@@ -26,136 +26,108 @@ using System.Collections.Generic;
 
 namespace R7.Scripting
 {
-	public class Command
+	public static class Command
 	{
-		private static int defaultWaitTime = 120000;
+        [Obsolete]
+        public static int DefaultWaitTime { get; set; }
 
-		public static int DefaultWaitTime
-		{
-			get { return defaultWaitTime; }
-			set { defaultWaitTime = value; }
-		}
-
-		public static int Run (string command, string arguments, int waitms = -1)
+        public static int Run (string command, string arguments = "", int waitms = int.MaxValue)
 		{
 			var exitCode = 1;
 
-			if (waitms < 0) waitms = defaultWaitTime;
-
-			var process = new Process ();
-			process.StartInfo.FileName = command;
-			process.StartInfo.Arguments = arguments;
-			process.StartInfo.UseShellExecute = false;
-			process.Start ();
-
-			if (process.WaitForExit (waitms))
-				exitCode = process.ExitCode;
-
-			process.Close ();
+            using (var process = new Process ()) {
+    			process.StartInfo.FileName = command;
+    			process.StartInfo.Arguments = arguments;
+    			process.StartInfo.UseShellExecute = false;
+    			
+                if (process.Start ()) {
+                    if (process.WaitForExit (waitms)) {
+                        exitCode = process.ExitCode;
+                    }
+                }
+            }
 
 			return exitCode;
 		}
 		
 		public static void RunNoWait (string command, string arguments = "")
 		{
-			var process = new Process ();
-			process.StartInfo.FileName = command;
-			process.StartInfo.Arguments = arguments;
-			process.Start ();
+            Process.Start (command, arguments);
 		}
 
-		public static string RunToFile (string command, string arguments, string file, int waitms =-1, bool createOrAppend = true)
+        public static string RunToFile (string command, string arguments, string file, int waitms = int.MaxValue, bool createOrAppend = true)
 		{	
 			var result = string.Empty;
-			if (waitms < 0) waitms = defaultWaitTime;
-
-			var process = new Process ();
-			process.StartInfo.FileName = command;
-			process.StartInfo.Arguments = arguments;
-			process.StartInfo.UseShellExecute = false;
-			process.StartInfo.RedirectStandardOutput = true;
-
-			if (process.Start ())
-			{
-				process.WaitForExit (waitms);
 			
-				if (!process.StandardOutput.EndOfStream)
-						result = process.StandardOutput.ReadToEnd ();
+            using (var process = new Process ()) {
+                process.StartInfo.FileName = command;
+                process.StartInfo.Arguments = arguments;
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.RedirectStandardOutput = true;
 
-				if (createOrAppend)
-					File.AppendAllText(file,result);
-				else
-					File.WriteAllText(file, result);				
-				
-				/*
-				var fs = new FileStream (file, (createOrAppend)? FileMode.Create : FileMode.Append, FileAccess.Write, FileShare.None);
-				var sw = new StreamWriter(fs);
-				sw.Write(result);
-				sw.Close ();
-				fs.Close ();
-				*/
-			}
-			process.Close ();
+                if (process.Start ()) {
+                    if (process.WaitForExit (waitms)) {
+                        if (!process.StandardOutput.EndOfStream) {
+                            result = process.StandardOutput.ReadToEnd ();
+                        }
+
+                        if (createOrAppend) {
+                            File.AppendAllText (file, result);
+                        }
+                        else {
+                            File.WriteAllText (file, result);				
+                        }
+                    }
+                }
+            }
 
 			return result;
 		}
 
-
-		public static string RunToString (string command, string arguments, int waitms =-1)
+        public static string RunToString (string command, string arguments, int waitms = int.MaxValue)
 		{	
 			var result = string.Empty;
-			if (waitms < 0) waitms = defaultWaitTime;
-
-			var process = new Process ();
-			process.StartInfo.FileName = command;
-			process.StartInfo.Arguments = arguments;
-			process.StartInfo.UseShellExecute = false;
-			process.StartInfo.RedirectStandardOutput = true;
 			
-			if (process.Start ())
-			{
-				process.WaitForExit (waitms);
-				
-				if (!process.StandardOutput.EndOfStream)
-					result = process.StandardOutput.ReadToEnd ();
+            using (var process = new Process ()) {
+    			process.StartInfo.FileName = command;
+    			process.StartInfo.Arguments = arguments;
+    			process.StartInfo.UseShellExecute = false;
+    			process.StartInfo.RedirectStandardOutput = true;
+    			
+                if (process.Start ()) {
+    			    if (process.WaitForExit (waitms)) {
+                        if (!process.StandardOutput.EndOfStream) {
+                            result = process.StandardOutput.ReadToEnd ();
+                        }
+                    }
+                    process.Close ();
+    			}
+            }
 
-			}
-			process.Close ();
-			
 			return result;
 		}
 
-		private static List<string> RunToLines (string command, string arguments, int waitms =-1)
+        public static List<string> RunToLines (string command, string arguments, int waitms = int.MaxValue)
 		{	
 			var result = new List<string> ();
-			if (waitms < 0) waitms = defaultWaitTime;
+			
+            using (var process = new Process ()) {
+                process.StartInfo.FileName = command;
+    			process.StartInfo.Arguments = arguments;
+    			process.StartInfo.UseShellExecute = false;
+    			process.StartInfo.RedirectStandardOutput = true;
 
-			var process = new Process ();
-			process.StartInfo.FileName = command;
-			process.StartInfo.Arguments = arguments;
-			process.StartInfo.UseShellExecute = false;
-			process.StartInfo.RedirectStandardOutput = true;
-
-			try 
-			{
-				process.Start ();
-				if	(process.WaitForExit (waitms))
-				{
-					while (!process.StandardOutput.EndOfStream)
-						result.Add (process.StandardOutput.ReadLine ());
-				}
+			    if (process.Start ()) {
+                    if	(process.WaitForExit (waitms)) {
+                        while (!process.StandardOutput.EndOfStream) {
+    						result.Add (process.StandardOutput.ReadLine ());
+                        }
+    				}
+                }
 			}
-			catch
-			{
-			}
-			finally
-			{
-				process.Close ();
-			}
-
+			
 			return result;
 		}
-
-	} // class 
-} // namespace
-
+	}
+}
+    
