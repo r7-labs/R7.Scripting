@@ -4,7 +4,7 @@
 //  Author:
 //       Roman M. Yagodin <roman.yagodin@gmail.com>
 //
-//  Copyright (c) 2014 Roman M. Yagodin
+//  Copyright (c) 2014-2016 Roman M. Yagodin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ using System.Text.RegularExpressions;
 
 namespace R7.Scripting
 {
-	/*
+	/* Environment variables
 	NAUTILUS_SCRIPT_SELECTED_FILE_PATHS: список выделенных файлов, разделённых переводом строки (только в локальном случае)
 	NAUTILUS_SCRIPT_SELECTED_URIS: список адресов (URI) выделенных файлов, разделённых переводом строки
 	NAUTILUS_SCRIPT_CURRENT_URI: текущий адрес URI
@@ -37,7 +37,7 @@ namespace R7.Scripting
 	*/
 
 	// THINK: Support Marlin?
-	public enum FileManager { Unknown, Nautilus, Nemo }
+	public enum FileManager { Unknown, Nautilus, Nemo, Caja }
 
 	// TODO: Rename to FileManager?
 	// TODO: Unmake static?
@@ -70,12 +70,18 @@ namespace R7.Scripting
 			{ 
 				if (fileManager == FileManager.Unknown)
 				{
-					if (Environment.GetEnvironmentVariable ("NAUTILUS_SCRIPT_CURRENT_URI") != null)
-					{
-						fileManager = FileManager.Nautilus;
-					}
-					else if (Environment.GetEnvironmentVariable("NEMO_SCRIPT_CURRENT_URI") != null)
-					    fileManager = FileManager.Nemo;
+                    if (Environment.GetEnvironmentVariable ("NAUTILUS_SCRIPT_CURRENT_URI") != null)
+                    {
+                        fileManager = FileManager.Nautilus;
+                    }
+                    else if (Environment.GetEnvironmentVariable ("NEMO_SCRIPT_CURRENT_URI") != null)
+                    {
+                        fileManager = FileManager.Nemo;
+                    }
+                    else if (Environment.GetEnvironmentVariable ("CAJA_SCRIPT_CURRENT_URI") != null)
+                    {
+                        fileManager = FileManager.Nemo;
+                    }
 				}
 				return fileManager;
 			}
@@ -95,7 +101,6 @@ namespace R7.Scripting
 		{
 			get
 			{
-				// TODO: Support Caja
 				switch (FileManager)
 				{
 					case FileManager.Nautilus:
@@ -104,8 +109,11 @@ namespace R7.Scripting
 					case FileManager.Nemo:
 						return Path.Combine (Environment.GetEnvironmentVariable ("HOME"), ".local/share/nemo/scripts");
 
+                    case FileManager.Caja:
+                        return Path.Combine (Environment.GetEnvironmentVariable ("HOME"), ".config/caja/scripts");
+
 					default:
-						throw new NotSupportedException ("NauHelper.SciptDirectory support only Nautilus & Nemo file managers");
+						throw new NotSupportedException ("NauHelper.SciptDirectory supports only Nautilus, Nemo and Caja file managers");
 				}
 			}
 		}
