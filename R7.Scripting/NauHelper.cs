@@ -80,7 +80,7 @@ namespace R7.Scripting
                     }
                     else if (Environment.GetEnvironmentVariable ("CAJA_SCRIPT_CURRENT_URI") != null)
                     {
-                        fileManager = FileManager.Nemo;
+                        fileManager = FileManager.Caja;
                     }
 				}
 				return fileManager;
