@@ -1,0 +1,6 @@
+# bin and obj folders
+bin/
+obj/
+
+# user preferences file
+*.userprefs
