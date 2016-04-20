@@ -24,7 +24,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 
-namespace R7.Utils
+namespace R7.Scripting
 {
 	public class TextUtils
 	{

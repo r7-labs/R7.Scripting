@@ -28,8 +28,10 @@ namespace R7.Scripting
 	{
 		public Log (string filename, bool echo = true)
 		{
-			if (!Directory.Exists ("~log"))
-				Directory.CreateDirectory ("~log");
+            if (!Directory.Exists ("~log"))
+            {
+                Directory.CreateDirectory ("~log");
+            }
 
 			fileName = Path.Combine("~log", filename);
 
@@ -56,20 +58,16 @@ namespace R7.Scripting
 				Console.WriteLine("{0}: {1}", DateTime.Now.ToShortTimeString(), s);
 		}
 
-		/*
-		public void WriteLine (string format, params object[] args)
-		{
-			log.WriteLine("{0}: " + format, DateTime.Now.ToShortTimeString(), args);	
-		}*/
-
 		public void WriteException (Exception ex)
 		{
 			empty = false;
 
 			log.WriteLine (string.Format("Error: {0}\nStack Trace: {1}", ex.Message, ex.StackTrace));
 
-			if (Echo) 
-				Console.WriteLine("Error: {0}\nStack Trace: {1}", ex.Message, ex.StackTrace);
+            if (Echo)
+            {
+                Console.WriteLine ("Error: {0}\nStack Trace: {1}", ex.Message, ex.StackTrace);
+            }
 		}
 
 		public void Close ()

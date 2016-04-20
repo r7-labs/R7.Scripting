@@ -23,36 +23,37 @@ using System;
 
 namespace R7.Scripting
 {
-	/// <summary>
-	/// 
-	/// </summary>
-	public class DateTimeHelper
-	{
-		public static string IsoToday
-		{
-			get { return DateTime.Now.ToString ("yyMMdd"); }
-		}
-		
-		public static bool IsIsoDate (string date)
-		{
-			if (date.Length != 6)
-				return false;
+    public class DateTimeHelper
+    {
+        public static string IsoToday
+        {
+            get { return DateTime.Now.ToString ("yyMMdd"); }
+        }
+
+        public static bool IsIsoDate (string date)
+        {
+            if (date.Length != 6) {
+                return false;
+            }
 			
-			int a;
-			if (!int.TryParse (date, out a))
-				return false;
+            int a;
+            if (!int.TryParse (date, out a)) {
+                return false;
+            }
 			
-			int day = int.Parse (date.Substring (4, 2));
-			if (day > 31 || day < 1)
-				return false;
+            int day = int.Parse (date.Substring (4, 2));
+            if (day > 31 || day < 1) {
+                return false;
+            }
 			
-			int month = int.Parse (date.Substring (2, 2));
-			if (month > 12 || month < 1)
-				return false;
+            int month = int.Parse (date.Substring (2, 2));
+            if (month > 12 || month < 1) {
+                return false;
+            }
 			
-			return true;
-		}
-	}
+            return true;
+        }
+    }
 
 }
 

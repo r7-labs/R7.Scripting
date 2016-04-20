@@ -24,8 +24,6 @@ using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 
-using R7.Utils;
-
 namespace R7.Scripting
 {
 	public enum FileSource  

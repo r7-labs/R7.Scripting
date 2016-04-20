@@ -22,16 +22,14 @@
 using System;
 using System.Reflection;
 
-// TODO: Color stack or one-message color settings
-
 namespace R7.Scripting
 {
-	public static class Scripting
-	{
-		public static Version Version 
-		{
-			get { return Assembly.GetCallingAssembly().GetName().Version; }
-		}
-	}
+    public static class Scripting
+    {
+        public static Version Version
+        {
+            get { return Assembly.GetCallingAssembly ().GetName ().Version; }
+        }
+    }
 }
 

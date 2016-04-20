@@ -26,19 +26,19 @@ using System.Collections.Generic;
 
 namespace R7.Scripting
 {
-	public static class Command
-	{
+    public static class Command
+    {
         [Obsolete]
         public static int DefaultWaitTime { get; set; }
 
         public static int Run (string command, string arguments = "", int waitms = int.MaxValue)
-		{
-			var exitCode = 1;
+        {
+            var exitCode = 1;
 
             using (var process = new Process ()) {
-    			process.StartInfo.FileName = command;
-    			process.StartInfo.Arguments = arguments;
-    			process.StartInfo.UseShellExecute = false;
+                process.StartInfo.FileName = command;
+                process.StartInfo.Arguments = arguments;
+                process.StartInfo.UseShellExecute = false;
     			
                 if (process.Start ()) {
                     if (process.WaitForExit (waitms)) {
@@ -47,17 +47,22 @@ namespace R7.Scripting
                 }
             }
 
-			return exitCode;
-		}
-		
-		public static void RunNoWait (string command, string arguments = "")
-		{
-            Process.Start (command, arguments);
-		}
+            return exitCode;
+        }
 
-        public static string RunToFile (string command, string arguments, string file, int waitms = int.MaxValue, bool createOrAppend = true)
-		{	
-			var result = string.Empty;
+        public static void RunNoWait (string command, string arguments = "")
+        {
+            Process.Start (command, arguments);
+        }
+
+        public static string RunToFile (
+            string command,
+            string arguments,
+            string file,
+            int waitms = int.MaxValue,
+            bool createOrAppend = true)
+        {	
+            var result = string.Empty;
 			
             using (var process = new Process ()) {
                 process.StartInfo.FileName = command;
@@ -81,53 +86,53 @@ namespace R7.Scripting
                 }
             }
 
-			return result;
-		}
+            return result;
+        }
 
         public static string RunToString (string command, string arguments, int waitms = int.MaxValue)
-		{	
-			var result = string.Empty;
+        {	
+            var result = string.Empty;
 			
             using (var process = new Process ()) {
-    			process.StartInfo.FileName = command;
-    			process.StartInfo.Arguments = arguments;
-    			process.StartInfo.UseShellExecute = false;
-    			process.StartInfo.RedirectStandardOutput = true;
+                process.StartInfo.FileName = command;
+                process.StartInfo.Arguments = arguments;
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.RedirectStandardOutput = true;
     			
                 if (process.Start ()) {
-    			    if (process.WaitForExit (waitms)) {
+                    if (process.WaitForExit (waitms)) {
                         if (!process.StandardOutput.EndOfStream) {
                             result = process.StandardOutput.ReadToEnd ();
                         }
                     }
                     process.Close ();
-    			}
+                }
             }
 
-			return result;
-		}
+            return result;
+        }
 
         public static List<string> RunToLines (string command, string arguments, int waitms = int.MaxValue)
-		{	
-			var result = new List<string> ();
+        {	
+            var result = new List<string> ();
 			
             using (var process = new Process ()) {
                 process.StartInfo.FileName = command;
-    			process.StartInfo.Arguments = arguments;
-    			process.StartInfo.UseShellExecute = false;
-    			process.StartInfo.RedirectStandardOutput = true;
+                process.StartInfo.Arguments = arguments;
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.RedirectStandardOutput = true;
 
-			    if (process.Start ()) {
-                    if	(process.WaitForExit (waitms)) {
+                if (process.Start ()) {
+                    if (process.WaitForExit (waitms)) {
                         while (!process.StandardOutput.EndOfStream) {
-    						result.Add (process.StandardOutput.ReadLine ());
+                            result.Add (process.StandardOutput.ReadLine ());
                         }
-    				}
+                    }
                 }
-			}
+            }
 			
-			return result;
-		}
-	}
+            return result;
+        }
+    }
 }
     
