@@ -166,17 +166,21 @@ namespace R7.Scripting
 				
 		public static string FixUrlEncoding (string url)
 		{
-			url = url.Replace ("+", "%2B");
+            url = url.Replace ("+", "%2B");
 			url = url.Replace ("$", "%24");
 			url = url.Replace ("&", "%26");
 			url = url.Replace (",", "%2C");
-			//url = url.Replace ("/", "%2F");
 			url = url.Replace (":", "%3A");
 			url = url.Replace (";", "%3B");
 			url = url.Replace ("=", "%3D");
 			url = url.Replace ("?", "%3F");
-			//url = url.Replace ("@", "%40");
-			
+            url = url.Replace ("(", "%28");
+            url = url.Replace (")", "%29");
+            url = url.Replace ("[", "%5B");
+            url = url.Replace ("]", "%5D");
+            url = url.Replace ("{", "%7B");
+            url = url.Replace ("}", "%7D");
+
 			return url;
 		}
 			
