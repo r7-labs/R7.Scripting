@@ -21,8 +21,6 @@
 
 using System;
 using NUnit.Framework;
-
-using R7.Utils;
 using R7.Scripting;
 
 namespace R7.Scripting.Tests
