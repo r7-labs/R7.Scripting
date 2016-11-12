@@ -44,6 +44,9 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Web" />
+    <Reference Include="notify-sharp">
+      <HintPath>..\..\..\..\..\..\usr\lib\cli\notify-sharp-0.4\notify-sharp.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Scripting.cs" />
@@ -57,6 +60,7 @@
     <Compile Include="Script.cs" />
     <Compile Include="FileProcessingScript.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DesktopScript.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

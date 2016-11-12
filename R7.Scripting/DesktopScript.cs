@@ -1,5 +1,5 @@
 ﻿//
-//  NotifyScript.cs
+//  DesktopScript.cs
 //
 //  Author:
 //       Roman M. Yagodin <roman.yagodin@gmail.com>
@@ -24,13 +24,19 @@ using Notifications;
 
 namespace R7.Scripting
 {
-    public abstract class NotifyScript: Script
+    public abstract class DesktopScript: Script
     {
-        public int NotifyAfterSeconds { get; protected set; }
+        public int LongOperationTimeout { get; protected set; }
 
-        protected NotifyScript (string [] args): base (args)
+        public int ExpireTimeoutBase { get; protected set; }
+
+        public bool DisableNotifications { get; protected set; }
+
+        protected DesktopScript (string [] args): base (args)
         {
-            NotifyAfterSeconds = 10;
+            LongOperationTimeout = 10;
+            ExpireTimeoutBase = 15;
+            DisableNotifications = false;
         }
 
         private Urgency GetUrgencyByResult (int result)
@@ -51,41 +57,42 @@ namespace R7.Scripting
             return "dialog-warning";
         }
 
-        public override int Run ()
+        DateTime startTime;
+
+        public override void OnPreProcess ()
         {
-            try {
-                var startTime = DateTime.Now;
+            startTime = DateTime.Now;
+        }
 
-                PreProcess ();
-                var result = Process ();
-                PostProcess ();
-
-                var scriptExecutionTime = DateTime.Now - startTime;
-                if (scriptExecutionTime.TotalSeconds > NotifyAfterSeconds) {
-                    var notification = new Notification ();
-                    notification.Summary = ScriptFile + " finished.";
-                    notification.Body = "";
-                    notification.IconName = GetDialogIconByResult (result);
-                    notification.Urgency = GetUrgencyByResult (result);
-                    notification.Show ();
-
+        public override void OnPostProcess ()
+        {
+            var scriptExecutionTime = DateTime.Now - startTime;
+            if (scriptExecutionTime.TotalSeconds > LongOperationTimeout) {
+                if (!DisableNotifications) {
+                    new Notification {
+                        Summary = ScriptFile + " finished.",
+                        Body = "",
+                        IconName = GetDialogIconByResult (Result),
+                        Urgency = GetUrgencyByResult (Result),
+                        Timeout = 1000 * ExpireTimeoutBase * ((Result == 0) ? 1 : 2),
+                    }.Show ();
                 }
+            }
+        }
 
-                return result;
-            } catch (Exception ex) {
-                var notification = new Notification ();
-                notification.Summary = ScriptFile + ": " + ex.Message;
-                notification.Body = ex.StackTrace;
-                notification.IconName = "dialog-error";
-                notification.Urgency = Urgency.Critical;
-                notification.Show ();
-
-                Log.WriteLine (ex.Message);
-            } finally {
-                Log.Close ();
+        public override void OnException (Exception ex)
+        {
+            if (!DisableNotifications) {
+                new Notification {
+                    Summary = ScriptFile + ": " + ex.Message,
+                    Body = ex.StackTrace,
+                    IconName = "dialog-error",
+                    Urgency = Urgency.Critical,
+                    Timeout = 1000 * ExpireTimeoutBase * 4
+                }.Show ();
             }
 
-            return 1;
+            base.OnException (ex);
         }
     }
 }
