@@ -21,12 +21,10 @@
 
 using System;
 using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
 
 namespace R7.Scripting
 {
-	public enum FileSource  
+    public enum FileSource  
 	{ 
 		CurrentDirectory, 
 		Directory, 
@@ -35,15 +33,61 @@ namespace R7.Scripting
 		NautilusSelection, 
 		NautilusCurrentDirectory, 
 		EnvironmentVariable 
-	}; 
+	};
+
+    public enum BackupType
+    {
+        Off,
+        Simple,
+        Numbered
+    }
+
 
 	/// <summary>
 	/// 
 	/// </summary>
 	public class FileHelper
 	{
+        public static void Backup (string file, string backupDir, BackupType backupType = BackupType.Simple)
+        {
+            if (backupType == BackupType.Off) {
+                return;
+            }
+            
+            if (File.Exists (file) && !IsDirectory (file)) {
+                var backupDirAbs = Path.Combine (Path.GetDirectoryName (file), backupDir);
 
-		public static string [] GetFiles (FileSource source, string path = "")
+                if (!Directory.Exists (backupDirAbs)) {
+                    Directory.CreateDirectory (backupDirAbs);
+                }
+
+                var fileName = Path.GetFileName (file);
+                var backupFile = Path.Combine (backupDirAbs, fileName) + ".~";
+
+                if (backupType == BackupType.Simple) {
+                    // overwrite previous backup
+                    File.Copy (file, backupFile, true);
+                }
+                else if (backupType == BackupType.Numbered) {
+                    // backup to the new file
+                    var backupNumber = 1;
+                    while (File.Exists (backupFile)) {
+                        backupFile = Path.Combine (backupDirAbs, fileName) + ".~" + backupNumber + "~";
+                        backupNumber += 1;
+                    }
+
+                    File.Copy (file, backupFile);
+                }
+            }
+        }
+
+        public static void Move (string sourceFileName, string destFileName, bool overwrite)
+        {
+            File.Copy (sourceFileName, destFileName, overwrite);
+            File.Delete (sourceFileName);
+        }
+
+        public static string [] GetFiles (FileSource source, string path = "")
 		{
 			var files = new string[0];
 
