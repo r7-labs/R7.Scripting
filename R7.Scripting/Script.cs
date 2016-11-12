@@ -30,6 +30,8 @@ namespace R7.Scripting
 
         public string [] Args { get; protected set; }
 
+        public int Result { get; protected set; }
+
         public string ScriptFile
         {
             get { return Path.GetFileNameWithoutExtension (Args [0]); }
@@ -51,31 +53,40 @@ namespace R7.Scripting
         {
             try
             {
-                PreProcess ();
-                var result = Process ();
-                PostProcess ();
+                OnPreProcess ();
+                Result = Process ();
+                OnPostProcess ();
 
-                return result;
+                return Result;
             }
             catch (Exception ex)
             {
-                Log.WriteLine (ex.Message);
+                OnException (ex);
             }
             finally
             {
-                Log.Close ();
+                OnFinish ();
             }
 
             return 1;
         }
 
-        public virtual void PreProcess ()
-        {}
-
-        public virtual void PostProcess ()
+        public virtual void OnPreProcess ()
         {}
 
         public abstract int Process ();
+
+        public virtual void OnPostProcess ()
+        {}
+
+        public virtual void OnException (Exception ex)
+        {
+            Log.WriteLine (ex.Message);
+        }
+
+        public virtual void OnFinish ()
+        {
+            Log.Close ();
+        }
     }
 }
-
