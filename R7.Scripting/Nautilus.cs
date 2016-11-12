@@ -1,5 +1,5 @@
 //
-//  NauHelper.cs
+//  Nautilus.cs
 //
 //  Author:
 //       Roman M. Yagodin <roman.yagodin@gmail.com>
@@ -39,29 +39,26 @@ namespace R7.Scripting
     // THINK: Support Marlin?
     public enum FileManager { Unknown, Nautilus, Nemo, Caja }
 
-    // TODO: Rename to FileManager?
-
     [Obsolete ("Use Nautilus class instead")]
     public class NauHelper : Nautilus
     {
     }
 
 	/// <summary>
-	/// Helper for Nautilus 
+	/// Helper class for Nautilus and Nautilus-like filemanagers
 	/// </summary>
 	public class Nautilus
 	{
 		private static Version version = null;
 		public static Version Version 
 		{
-			get 
-			{
-				if (version == null)
-				{
+            get {
+			    if (version == null) {
 					version = new Version (
-						Regex.Match (Command.RunToString (FileManager.ToString().ToLowerInvariant(), "--version"), @"\d+\.\d+\.\d+").Value
+						Regex.Match (Command.RunToString (FileManager.ToString ().ToLowerInvariant (), "--version"), @"\d+\.\d+\.\d+").Value
 					);
 				}
+
 				return version;
 			}
 		}
@@ -69,43 +66,37 @@ namespace R7.Scripting
 		protected static FileManager fileManager = FileManager.Unknown;
 		public static FileManager FileManager
 		{
-			get 
-			{ 
-				if (fileManager == FileManager.Unknown)
-				{
-                    if (Environment.GetEnvironmentVariable ("NAUTILUS_SCRIPT_CURRENT_URI") != null)
-                    {
+            get {
+                if (fileManager == FileManager.Unknown) {
+				    if (Environment.GetEnvironmentVariable ("NAUTILUS_SCRIPT_CURRENT_URI") != null) {
                         fileManager = FileManager.Nautilus;
                     }
-                    else if (Environment.GetEnvironmentVariable ("NEMO_SCRIPT_CURRENT_URI") != null)
-                    {
+                    else if (Environment.GetEnvironmentVariable ("NEMO_SCRIPT_CURRENT_URI") != null) {
                         fileManager = FileManager.Nemo;
                     }
-                    else if (Environment.GetEnvironmentVariable ("CAJA_SCRIPT_CURRENT_URI") != null)
-                    {
+                    else if (Environment.GetEnvironmentVariable ("CAJA_SCRIPT_CURRENT_URI") != null) {
                         fileManager = FileManager.Caja;
                     }
 				}
+
 				return fileManager;
 			}
 		}
 
 		protected static string Env (string suffix)
 		{
-			return FileManager.ToString().ToUpperInvariant() + "_" + suffix;
+			return FileManager.ToString ().ToUpperInvariant () + "_" + suffix;
 		}
 
 		protected static string EnvValue (string suffix)
 		{
-			return Environment.GetEnvironmentVariable(Env(suffix));
+			return Environment.GetEnvironmentVariable (Env (suffix));
 		}
 
 		public static string ScriptDirectory
 		{
-			get
-			{
-				switch (FileManager)
-				{
+            get {
+			    switch (FileManager) {
 					case FileManager.Nautilus:
 						return Path.Combine (Environment.GetEnvironmentVariable ("HOME"), ".local/share/nautilus/scripts");
 
@@ -122,19 +113,20 @@ namespace R7.Scripting
 		}
 
 		[Obsolete ("Use Nautilus.FileManager property instead")]
-		public static bool FromNau {
+		public static bool FromNau
+        {
 			get { return !string.IsNullOrWhiteSpace(EnvValue ("SCRIPT_CURRENT_URI")); }
 			
 		}
 
 		public static string CurrentDirectory
 		{
-			get
-			{
-				if (!string.IsNullOrWhiteSpace (EnvValue ("SCRIPT_CURRENT_URI")))
-					return UrlDecode (EnvValue ("SCRIPT_CURRENT_URI").Remove (0, "file://".Length));
-				else
-					return Directory.GetCurrentDirectory ();
+            get {
+			    if (!string.IsNullOrWhiteSpace (EnvValue ("SCRIPT_CURRENT_URI"))) {
+                    return UrlDecode (EnvValue ("SCRIPT_CURRENT_URI").Remove (0, "file://".Length));
+                }
+
+	            return Directory.GetCurrentDirectory ();
 			}
 		}
 		
@@ -149,20 +141,20 @@ namespace R7.Scripting
 			get { return !IsSomethingSelected; }
 		}
 		
-		protected static string[] selectedFiles = new string[0];
-		public static string[] SelectedFiles
+		protected static string [] selectedFiles = new string [0];
+		public static string [] SelectedFiles
 		{
-			get
-			{
-				if (selectedFiles.Length == 0)
-				{
-					string filesVar = EnvValue ("SCRIPT_SELECTED_URIS");
-					selectedFiles = filesVar.Split (new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            get {
+			    if (selectedFiles.Length == 0) {
+					var filesVar = EnvValue ("SCRIPT_SELECTED_URIS");
+					selectedFiles = filesVar.Split (new char [] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
 
-					// TODO: Support not only local files
-					for (var i = 0; i < selectedFiles.Length; i++)
-						selectedFiles [i] = UrlDecode (selectedFiles [i].Remove (0, "file://".Length));
+                    // TODO: Support not only local files
+                    for (var i = 0; i < selectedFiles.Length; i++) {
+                        selectedFiles [i] = UrlDecode (selectedFiles [i].Remove (0, "file://".Length));
+                    }
 				}
+
 				return selectedFiles;
 			}
 		}
@@ -189,8 +181,7 @@ namespace R7.Scripting
 			
 		public static string UrlDecode (string url)
 		{
-			return HttpUtility.UrlDecode(FixUrlEncoding(url));
-		}
-		
+			return HttpUtility.UrlDecode (FixUrlEncoding (url));
+		} 
 	}
 }
