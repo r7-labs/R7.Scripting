@@ -98,11 +98,11 @@ namespace R7.Scripting
 			else if (source == FileSource.EnvironmentVariable)
 				files = Directory.GetFiles (Environment.GetEnvironmentVariable (path));
 			else if (source == FileSource.NautilusSelection)
-				files = NauHelper.SelectedFiles;
+				files = Nautilus.SelectedFiles;
 			else if (source == FileSource.NautilusCurrentDirectory)
-				files = Directory.GetFiles (NauHelper.CurrentDirectory);
+				files = Directory.GetFiles (Nautilus.CurrentDirectory);
 			else if (source == FileSource.Nautilus)
-				files = (NauHelper.IsNothingSelected)? Directory.GetFiles (NauHelper.CurrentDirectory) : NauHelper.SelectedFiles;
+				files = (Nautilus.IsNothingSelected)? Directory.GetFiles (Nautilus.CurrentDirectory) : Nautilus.SelectedFiles;
 
 			// TODO: Realize commandline
 

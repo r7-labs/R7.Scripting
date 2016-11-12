@@ -26,7 +26,7 @@ using System.Text.RegularExpressions;
 
 namespace R7.Scripting
 {
-	/* Environment variables
+    /* Environment variables
 	NAUTILUS_SCRIPT_SELECTED_FILE_PATHS: список выделенных файлов, разделённых переводом строки (только в локальном случае)
 	NAUTILUS_SCRIPT_SELECTED_URIS: список адресов (URI) выделенных файлов, разделённых переводом строки
 	NAUTILUS_SCRIPT_CURRENT_URI: текущий адрес URI
@@ -36,17 +36,20 @@ namespace R7.Scripting
 	NAUTILUS_SCRIPT_NEXT_PANE_CURRENT_URI: текущий адрес URI в неактивной панели окна раздельного вида
 	*/
 
-	// THINK: Support Marlin?
-	public enum FileManager { Unknown, Nautilus, Nemo, Caja }
+    // THINK: Support Marlin?
+    public enum FileManager { Unknown, Nautilus, Nemo, Caja }
 
-	// TODO: Rename to FileManager?
-	// TODO: Unmake static?
+    // TODO: Rename to FileManager?
 
+    [Obsolete ("Use Nautilus class instead")]
+    public class NauHelper : Nautilus
+    {
+    }
 
 	/// <summary>
 	/// Helper for Nautilus 
 	/// </summary>
-	public class NauHelper
+	public class Nautilus
 	{
 		private static Version version = null;
 		public static Version Version 
@@ -118,7 +121,7 @@ namespace R7.Scripting
 			}
 		}
 
-		[Obsolete("Use NauHelper.FileManager property")]
+		[Obsolete ("Use Nautilus.FileManager property instead")]
 		public static bool FromNau {
 			get { return !string.IsNullOrWhiteSpace(EnvValue ("SCRIPT_CURRENT_URI")); }
 			

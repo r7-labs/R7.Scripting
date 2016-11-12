@@ -33,7 +33,11 @@
     <ConsolePause>False</ConsolePause>
     <CustomCommands>
       <CustomCommands>
-        <Command type="AfterBuild" command="cp -f &quot;${TargetFile}&quot; /home/redhound/.config/csharp" workingdir="${TargetDir}" />
+        <Command>
+          <type>AfterBuild</type>
+          <command>cp -f "${TargetFile}" /home/redhound/.config/csharp</command>
+          <workingdir>${TargetDir}</workingdir>
+        </Command>
       </CustomCommands>
     </CustomCommands>
   </PropertyGroup>
@@ -43,7 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Scripting.cs" />
-    <Compile Include="NauHelper.cs" />
+    <Compile Include="Nautilus.cs" />
     <Compile Include="DateTimeHelper.cs" />
     <Compile Include="FileHelper.cs" />
     <Compile Include="Command.cs" />
