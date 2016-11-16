@@ -18,13 +18,23 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
+
 namespace R7.Scripting
 {
-    public class GenericFileProcessingScript
+    public sealed class GenericFileProcessingScript: FileProcessingScript
     {
-        public GenericFileProcessingScript ()
+        private readonly Func<string, int> processFileCallback;
+
+        public GenericFileProcessingScript (string [] args, Func<string, int> processFileCallback): base (args)
         {
+            this.processFileCallback = processFileCallback;
+        }
+
+        public override int ProcessFile (string file)
+        {
+            return processFileCallback (file);
         }
     }
 }
