@@ -51,20 +51,17 @@ namespace R7.Scripting
 
         public int Run ()
         {
-            try
-            {
+            try {
                 OnPreProcess ();
                 Result = Process ();
                 OnPostProcess ();
 
                 return Result;
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 OnException (ex);
             }
-            finally
-            {
+            finally {
                 OnFinish ();
             }
 
@@ -72,12 +69,12 @@ namespace R7.Scripting
         }
 
         public virtual void OnPreProcess ()
-        {}
+        { }
 
         public abstract int Process ();
 
         public virtual void OnPostProcess ()
-        {}
+        { }
 
         public virtual void OnException (Exception ex)
         {

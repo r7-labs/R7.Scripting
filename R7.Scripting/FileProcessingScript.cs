@@ -25,7 +25,7 @@ using System.Linq;
 
 namespace R7.Scripting
 {
-    public abstract class FileProcessingScript: Script
+    public abstract class FileProcessingScript : Script
     {
         public string [] Files { get; protected set; }
 
@@ -33,23 +33,20 @@ namespace R7.Scripting
 
         public bool ContinueOnErrors { get; protected set; }
 
-        protected FileProcessingScript (string [] args, bool continueOnErrors): base (args)
+        protected FileProcessingScript (string [] args, bool continueOnErrors) : base (args)
         {
             ContinueOnErrors = continueOnErrors;
         }
 
         public override int Process ()
         {
-            foreach (var file in Files)
-            {
-                int result = 0;
+            foreach (var file in Files) {
+                var result = 0;
 
-                try
-                {
-                    bool allowProcessFile = true;
+                try {
+                    var allowProcessFile = true;
 
-                    if (AllowedExtensions != null)
-                    {
+                    if (AllowedExtensions != null) {
                         var ext = Path.GetExtension (file).ToLowerInvariant ();
                         allowProcessFile = null != AllowedExtensions.FirstOrDefault (e => e == ext);
                     }
@@ -58,8 +55,7 @@ namespace R7.Scripting
                         result = ProcessFile (file);
                     }
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     Log.WriteLine ("Error: " + ex.Message);
                     result = 1;
                 }
@@ -68,7 +64,7 @@ namespace R7.Scripting
                     return 1;
                 }
             }
-        
+
             return 0;
         }
 

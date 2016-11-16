@@ -24,7 +24,7 @@ using Notifications;
 
 namespace R7.Scripting
 {
-    public abstract class DesktopScript: Script
+    public abstract class DesktopScript : Script
     {
         public int LongOperationTimeout { get; protected set; }
 
@@ -32,7 +32,7 @@ namespace R7.Scripting
 
         public bool DisableNotifications { get; protected set; }
 
-        protected DesktopScript (string [] args): base (args)
+        protected DesktopScript (string [] args) : base (args)
         {
             LongOperationTimeout = 10;
             ExpireTimeoutBase = 15;
