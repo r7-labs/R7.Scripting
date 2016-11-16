@@ -62,7 +62,7 @@ namespace R7.Scripting
 
         protected override void PreProcess ()
         {
-            base.PostProcess ();
+            base.PreProcess ();
 
             startTime = DateTime.Now;
         }
