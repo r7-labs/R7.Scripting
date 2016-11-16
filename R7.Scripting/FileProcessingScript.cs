@@ -25,17 +25,20 @@ using System.Linq;
 
 namespace R7.Scripting
 {
-    public abstract class FileProcessingScript : Script
+    public abstract class FileProcessingScript : DesktopScript
     {
-        public string [] Files { get; protected set; }
+        #region Script params
 
-        public string [] AllowedExtensions { get; protected set; }
+        public string [] Files { get; set; }
 
-        public bool ContinueOnErrors { get; protected set; }
+        public string [] AllowedExtensions { get; set; }
 
-        protected FileProcessingScript (string [] args, bool continueOnErrors) : base (args)
+        public bool ContinueOnErrors { get; set; } = false;
+
+        #endregion
+
+        protected FileProcessingScript (string [] args) : base (args)
         {
-            ContinueOnErrors = continueOnErrors;
         }
 
         public override int Process ()

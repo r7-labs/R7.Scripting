@@ -26,17 +26,18 @@ namespace R7.Scripting
 {
     public abstract class DesktopScript : Script
     {
-        public int LongOperationTimeout { get; protected set; }
+        #region Script params
 
-        public int ExpireTimeoutBase { get; protected set; }
+        public int LongOperationTimeout { get; set; } = 10;
 
-        public bool DisableNotifications { get; protected set; }
+        public int ExpireTimeoutBase { get; set; } = 15;
 
-        protected DesktopScript (string [] args) : base (args)
+        public bool DisableNotifications { get; set; } = false;
+
+        #endregion
+
+        protected DesktopScript (string [] args): base (args)
         {
-            LongOperationTimeout = 10;
-            ExpireTimeoutBase = 15;
-            DisableNotifications = false;
         }
 
         private Urgency GetUrgencyByResult (int result)
