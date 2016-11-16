@@ -44,13 +44,14 @@ namespace R7.Scripting
 
         protected override int Process ()
         {
+            // FIXME: If Files == null, method will crash
             foreach (var file in Files) {
                 var result = 0;
 
                 try {
                     var allowProcessFile = true;
 
-                    if (AllowedExtensions != null) {
+                    if (AllowedExtensions.Count > 0) {
                         var ext = Path.GetExtension (file).ToLowerInvariant ();
                         allowProcessFile = null != AllowedExtensions.FirstOrDefault (e => e == ext);
                     }
