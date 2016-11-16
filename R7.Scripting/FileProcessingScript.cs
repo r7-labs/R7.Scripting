@@ -69,7 +69,7 @@ namespace R7.Scripting
                 }
             }
 
-            return 0;
+            return base.Process ();
         }
 
         public abstract int ProcessFile (string file);
