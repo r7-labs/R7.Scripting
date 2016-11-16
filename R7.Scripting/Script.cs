@@ -4,7 +4,7 @@
 //  Author:
 //       Roman M. Yagodin <roman.yagodin@gmail.com>
 //
-//  Copyright (c) 2015 Roman M. Yagodin
+//  Copyright (c) 2015-2016 Roman M. Yagodin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -24,6 +24,16 @@ using System.IO;
 
 namespace R7.Scripting
 {
+    #region Delegates for script events
+
+    public delegate void ScriptHandler (object sender);
+
+    public delegate int ScriptProcessHandler (object sender);
+
+    public delegate void ScriptProcessCatchHandler (object sender, Exception ex);
+
+    #endregion
+
     public abstract class Script
     {
         public Log Log { get; protected set; }
@@ -32,8 +42,7 @@ namespace R7.Scripting
 
         public int Result { get; protected set; }
 
-        public string ScriptFile
-        {
+        public string ScriptFile {
             get { return Path.GetFileNameWithoutExtension (Args [0]); }
         }
 
@@ -52,37 +61,70 @@ namespace R7.Scripting
         public int Run ()
         {
             try {
-                OnPreProcess ();
+                PreProcess ();
                 Result = Process ();
-                OnPostProcess ();
+                PostProcess ();
 
                 return Result;
-            }
+            } 
             catch (Exception ex) {
-                OnException (ex);
-            }
+                ProcessCatch (ex);
+            } 
             finally {
-                OnFinish ();
+                ProcessFinally ();
             }
 
             return 1;
         }
 
-        public virtual void OnPreProcess ()
-        { }
+        public event ScriptHandler OnPreProcess;
 
-        public abstract int Process ();
+        public event ScriptHandler OnPostProcess;
 
-        public virtual void OnPostProcess ()
-        { }
+        public event ScriptProcessHandler OnProcess;
 
-        public virtual void OnException (Exception ex)
+        public event ScriptProcessCatchHandler OnProcessCatch;
+
+        public event ScriptHandler OnProcessFinally;
+
+        protected virtual void PreProcess ()
         {
+            if (OnPreProcess != null) {
+                OnPreProcess (this);
+            }
+        }
+
+        protected virtual int Process ()
+        {
+            if (OnProcess != null) {
+                return OnProcess (this);
+            }
+
+            return 0;
+        }
+
+        protected virtual void PostProcess ()
+        {
+            if (OnPostProcess != null) {
+                OnPostProcess (this);
+            }
+        }
+
+        protected virtual void ProcessCatch (Exception ex)
+        {
+            if (OnProcessCatch != null) {
+                OnProcessCatch (this, ex);
+            }
+
             Log.WriteLine (ex.Message);
         }
 
-        public virtual void OnFinish ()
+        protected virtual void ProcessFinally ()
         {
+            if (OnProcessFinally != null) {
+                OnProcessFinally (this);
+            }
+
             Log.Close ();
         }
     }

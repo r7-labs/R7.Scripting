@@ -60,13 +60,17 @@ namespace R7.Scripting
 
         DateTime startTime;
 
-        public override void OnPreProcess ()
+        protected override void PreProcess ()
         {
+            base.PostProcess ();
+
             startTime = DateTime.Now;
         }
 
-        public override void OnPostProcess ()
+        protected override void PostProcess ()
         {
+            base.PostProcess ();
+            
             var scriptExecutionTime = DateTime.Now - startTime;
             if (scriptExecutionTime.TotalSeconds > LongOperationTimeout) {
                 if (!DisableNotifications) {
@@ -81,8 +85,10 @@ namespace R7.Scripting
             }
         }
 
-        public override void OnException (Exception ex)
+        protected override void ProcessCatch (Exception ex)
         {
+            base.ProcessCatch (ex);
+            
             if (!DisableNotifications) {
                 new Notification {
                     Summary = ScriptFile + ": " + ex.Message,
@@ -92,8 +98,6 @@ namespace R7.Scripting
                     Timeout = 1000 * ExpireTimeoutBase * 4
                 }.Show ();
             }
-
-            base.OnException (ex);
         }
     }
 }
