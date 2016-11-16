@@ -22,6 +22,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace R7.Scripting
 {
@@ -31,7 +32,7 @@ namespace R7.Scripting
 
         public string [] Files { get; set; }
 
-        public string [] AllowedExtensions { get; set; }
+        public IList<string> AllowedExtensions { get; set; } = new List<string> ();
 
         public bool ContinueOnErrors { get; set; } = false;
 
