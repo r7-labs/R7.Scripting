@@ -28,8 +28,6 @@ namespace R7.Scripting
 
     public delegate void ScriptHandler (object sender);
 
-    public delegate int ScriptProcessHandler (object sender);
-
     public delegate void ScriptProcessCatchHandler (object sender, Exception ex);
 
     #endregion
@@ -81,8 +79,6 @@ namespace R7.Scripting
 
         public event ScriptHandler OnPostProcess;
 
-        public event ScriptProcessHandler OnProcess;
-
         public event ScriptProcessCatchHandler OnProcessCatch;
 
         public event ScriptHandler OnProcessFinally;
@@ -94,14 +90,7 @@ namespace R7.Scripting
             }
         }
 
-        protected virtual int Process ()
-        {
-            if (OnProcess != null) {
-                return OnProcess (this);
-            }
-
-            return 0;
-        }
+        protected abstract int Process ();
 
         protected virtual void PostProcess ()
         {
