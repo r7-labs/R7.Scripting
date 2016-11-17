@@ -44,8 +44,7 @@ namespace R7.Scripting
 
         protected override int Process ()
         {
-            // FIXME: If Files == null, method will crash
-            foreach (var file in Files) {
+            foreach (var file in Files ?? Enumerable.Empty<string> ()) {
                 var result = 0;
 
                 try {
