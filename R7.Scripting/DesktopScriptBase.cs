@@ -1,5 +1,5 @@
 ﻿//
-//  DesktopScript.cs
+//  DesktopScriptBase.cs
 //
 //  Author:
 //       Roman M. Yagodin <roman.yagodin@gmail.com>
@@ -24,7 +24,7 @@ using Notifications;
 
 namespace R7.Scripting
 {
-    public abstract class DesktopScript : Script
+    public abstract class DesktopScriptBase : ScriptBase
     {
         #region Script params
 
@@ -36,7 +36,7 @@ namespace R7.Scripting
 
         #endregion
 
-        protected DesktopScript (string [] args): base (args)
+        protected DesktopScriptBase (string [] args): base (args)
         {
         }
 

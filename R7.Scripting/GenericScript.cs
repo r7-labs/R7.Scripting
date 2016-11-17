@@ -23,7 +23,7 @@ using System;
 
 namespace R7.Scripting
 {
-    public sealed class GenericScript: Script
+    public sealed class GenericScript: ScriptBase
     {
         private readonly Func<int> processCallback;
         

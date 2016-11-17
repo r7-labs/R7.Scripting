@@ -1,5 +1,5 @@
 ﻿//
-//  Script.cs
+//  ScriptBase.cs
 //
 //  Author:
 //       Roman M. Yagodin <roman.yagodin@gmail.com>
@@ -32,7 +32,7 @@ namespace R7.Scripting
 
     #endregion
 
-    public abstract class Script
+    public abstract class ScriptBase
     {
         public Log Log { get; protected set; }
 
@@ -44,13 +44,13 @@ namespace R7.Scripting
             get { return Path.GetFileNameWithoutExtension (Args [0]); }
         }
 
-        protected Script (string [] args)
+        protected ScriptBase (string [] args)
         {
             Args = args;
             Log = new Log (ScriptFile);
         }
 
-        protected Script (string scriptFile)
+        protected ScriptBase (string scriptFile)
         {
             Args = new [] { scriptFile };
             Log = new Log (ScriptFile);

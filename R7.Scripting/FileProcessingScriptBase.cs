@@ -26,7 +26,7 @@ using System.Collections.Generic;
 
 namespace R7.Scripting
 {
-    public abstract class FileProcessingScript : DesktopScript
+    public abstract class FileProcessingScriptBase : DesktopScriptBase
     {
         #region Script params
 
@@ -38,7 +38,7 @@ namespace R7.Scripting
 
         #endregion
 
-        protected FileProcessingScript (string [] args) : base (args)
+        protected FileProcessingScriptBase (string [] args) : base (args)
         {
         }
 

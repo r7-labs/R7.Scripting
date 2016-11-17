@@ -23,7 +23,7 @@ using System;
 
 namespace R7.Scripting
 {
-    public sealed class GenericFileProcessingScript: FileProcessingScript
+    public sealed class GenericFileProcessingScript: FileProcessingScriptBase
     {
         private readonly Func<string, int> processFileCallback;
 

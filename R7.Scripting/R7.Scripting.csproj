@@ -57,10 +57,10 @@
     <Compile Include="Log.cs" />
     <Compile Include="TextUtils.cs" />
     <Compile Include="Envar.cs" />
-    <Compile Include="Script.cs" />
-    <Compile Include="FileProcessingScript.cs" />
+    <Compile Include="ScriptBase.cs" />
+    <Compile Include="FileProcessingScriptBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DesktopScript.cs" />
+    <Compile Include="DesktopScriptBase.cs" />
     <Compile Include="GenericScript.cs" />
     <Compile Include="GenericFileProcessingScript.cs" />
   </ItemGroup>
