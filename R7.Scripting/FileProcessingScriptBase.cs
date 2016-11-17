@@ -28,6 +28,8 @@ namespace R7.Scripting
 {
     public abstract class FileProcessingScriptBase : DesktopScriptBase
     {
+        public delegate void ScriptProcessFileHandler (object sender, string file);
+
         #region Script params
 
         public string [] Files { get; set; }
@@ -60,11 +62,13 @@ namespace R7.Scripting
                     }
 
                     if (allowProcessFile) {
+                        PreProcessFile (file);
                         result = ProcessFile (file);
+                        PostProcessFile (file);
                     }
                 }
                 catch (Exception ex) {
-                    Log.WriteException (ex);
+                    ProcessFileCatch (ex);
                     result = 1;
                 }
 
@@ -76,7 +80,36 @@ namespace R7.Scripting
             return 0;
         }
 
+        public event ScriptProcessFileHandler OnPreProcessFile;
+
+        public event ScriptProcessFileHandler OnPostProcessFile;
+
+        public event ScriptProcessCatchHandler OnProcessFileCatch;
+
         public abstract int ProcessFile (string file);
+
+        protected virtual void PreProcessFile (string file)
+        {
+            if (OnPreProcessFile != null) {
+                OnPreProcessFile (this, file);
+            }
+        }
+
+        protected virtual void PostProcessFile (string file)
+        {
+            if (OnPostProcessFile != null) {
+                OnPostProcessFile (this, file);
+            }
+        }
+
+        protected virtual void ProcessFileCatch (Exception ex)
+        {
+            if (OnProcessFileCatch != null) {
+                OnProcessFileCatch (this, ex);
+            }
+
+            Log.WriteException (ex);
+        }
     }
 }
 
