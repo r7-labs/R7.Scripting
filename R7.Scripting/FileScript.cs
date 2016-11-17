@@ -1,5 +1,5 @@
 ﻿//
-//  FileProcessingScript.cs
+//  FileScript.cs
 //
 //  Author:
 //       Roman M. Yagodin <roman.yagodin@gmail.com>
@@ -23,11 +23,11 @@ using System;
 
 namespace R7.Scripting
 {
-    public sealed class FileProcessingScript: FileProcessingScriptBase
+    public sealed class FileScript: FileScriptBase
     {
         private readonly Func<string, int> processFileCallback;
 
-        public FileProcessingScript (string [] args, Func<string, int> processFileCallback): base (args)
+        public FileScript (string [] args, Func<string, int> processFileCallback): base (args)
         {
             this.processFileCallback = processFileCallback;
         }

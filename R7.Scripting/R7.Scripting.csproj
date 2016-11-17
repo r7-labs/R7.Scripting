@@ -58,11 +58,11 @@
     <Compile Include="TextUtils.cs" />
     <Compile Include="Envar.cs" />
     <Compile Include="ScriptBase.cs" />
-    <Compile Include="FileProcessingScriptBase.cs" />
+    <Compile Include="FileScriptBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DesktopScriptBase.cs" />
     <Compile Include="Script.cs" />
-    <Compile Include="FileProcessingScript.cs" />
+    <Compile Include="FileScript.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

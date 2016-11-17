@@ -1,5 +1,5 @@
 ﻿//
-//  FileProcessingScriptBase.cs
+//  FileScriptBase.cs
 //
 //  Author:
 //       Roman M. Yagodin <roman.yagodin@gmail.com>
@@ -26,7 +26,7 @@ using System.Collections.Generic;
 
 namespace R7.Scripting
 {
-    public abstract class FileProcessingScriptBase : DesktopScriptBase
+    public abstract class FileScriptBase : DesktopScriptBase
     {
         public delegate void ScriptProcessFileHandler (object sender, string file);
 
@@ -40,7 +40,7 @@ namespace R7.Scripting
 
         #endregion
 
-        protected FileProcessingScriptBase (string [] args) : base (args)
+        protected FileScriptBase (string [] args) : base (args)
         {
         }
 
