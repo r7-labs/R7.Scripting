@@ -1,5 +1,5 @@
 ﻿//
-//  GenericScript.cs
+//  FileProcessingScript.cs
 //
 //  Author:
 //       Roman M. Yagodin <roman.yagodin@gmail.com>
@@ -23,18 +23,18 @@ using System;
 
 namespace R7.Scripting
 {
-    public sealed class GenericScript: ScriptBase
+    public sealed class GenericFileProcessingScript: FileProcessingScriptBase
     {
-        private readonly Func<int> processCallback;
-        
-        public GenericScript (string [] args, Func<int> processCallback): base (args)
+        private readonly Func<string, int> processFileCallback;
+
+        public GenericFileProcessingScript (string [] args, Func<string, int> processFileCallback): base (args)
         {
-            this.processCallback = processCallback;
+            this.processFileCallback = processFileCallback;
         }
 
-        protected override int Process ()
+        public override int ProcessFile (string file)
         {
-            return processCallback ();
+            return processFileCallback (file);
         }
     }
 }
