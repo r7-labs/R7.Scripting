@@ -105,7 +105,7 @@ namespace R7.Scripting
                 OnProcessCatch (this, ex);
             }
 
-            Log.WriteLine (ex.Message);
+            Log.WriteException (ex);
         }
 
         protected virtual void ProcessFinally ()

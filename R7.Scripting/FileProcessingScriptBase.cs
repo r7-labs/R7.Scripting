@@ -65,7 +65,7 @@ namespace R7.Scripting
                     }
                 }
                 catch (Exception ex) {
-                    Log.WriteLine ("Error: " + ex.Message);
+                    Log.WriteException (ex);
                     result = 1;
                 }
 
