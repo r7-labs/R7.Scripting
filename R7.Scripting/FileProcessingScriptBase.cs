@@ -1,5 +1,5 @@
 ﻿//
-//  FileProcessingScript.cs
+//  FileProcessingScriptBase.cs
 //
 //  Author:
 //       Roman M. Yagodin <roman.yagodin@gmail.com>
