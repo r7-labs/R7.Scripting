@@ -46,7 +46,7 @@ Global
 		$4.MessageStyle = $5
 		$5.LineAlign = 0
 		$4.inheritsSet = Mono
-		version = 1.0.0
+		version = 0.1.0
 		StartupItem = R7.Scripting\R7.Scripting.csproj
 	EndGlobalSection
 EndGlobal

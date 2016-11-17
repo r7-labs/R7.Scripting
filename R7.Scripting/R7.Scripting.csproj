@@ -11,7 +11,7 @@
     <AssemblyName>R7.Scripting</AssemblyName>
     <SignAssembly>False</SignAssembly>
     <AssemblyOriginatorKeyFile>R7.Scripting.key</AssemblyOriginatorKeyFile>
-    <ReleaseVersion>1.0.0</ReleaseVersion>
+    <ReleaseVersion>0.1.0</ReleaseVersion>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
