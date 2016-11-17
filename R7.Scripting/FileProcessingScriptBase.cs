@@ -56,6 +56,10 @@ namespace R7.Scripting
                         allowProcessFile = null != AllowedExtensions.FirstOrDefault (e => e == ext);
                     }
 
+                    if (!File.Exists (file)) {
+                        throw new FileNotFoundException ("File not found.", file);
+                    }
+
                     if (allowProcessFile) {
                         result = ProcessFile (file);
                     }
