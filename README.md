@@ -24,7 +24,7 @@ Mono provides C# interactive console (REPL) through `csharp` command, so you can
 just by adding `#!/usr/bin/csharp` as first line of source file. [More info...](http://www.mono-project.com/docs/tools+libraries/tools/repl/)
 
 If you need more from your C# scripts (i.e. pass command-line arguments to them, know script source location, run script in a terminal window) - 
-you could run then using *csexec*. Get it here: https://github.com/roman-yagodin/csexec, install, 
+you could run them using *csexec*. Get it here: https://github.com/roman-yagodin/csexec, install, 
 then add `#!/usr/bin/csexec -r:R7.Scripting.dll` as a first line. [More info...](https://github.com/roman-yagodin/csexec/blob/master/README.md)
 
 ## Install library
