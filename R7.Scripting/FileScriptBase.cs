@@ -23,7 +23,6 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
-
 namespace R7.Scripting
 {
     public abstract class FileScriptBase : DesktopScriptBase
@@ -32,6 +31,7 @@ namespace R7.Scripting
 
         #region Script params
 
+        // TODO: Use FileSource instead
         public string [] Files { get; set; }
 
         public IList<string> AllowedExtensions { get; set; } = new List<string> ();

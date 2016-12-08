@@ -24,6 +24,7 @@ using System.IO;
 
 namespace R7.Scripting
 {
+    // TODO: Add command-line args source
     public enum FileSource  
 	{ 
 		CurrentDirectory, 
@@ -41,7 +42,6 @@ namespace R7.Scripting
         Simple,
         Numbered
     }
-
 
 	/// <summary>
 	/// 
