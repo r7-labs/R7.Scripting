@@ -4,7 +4,7 @@
 //  Author:
 //       Roman M. Yagodin <roman.yagodin@gmail.com>
 //
-//  Copyright (c) 2014 Roman M. Yagodin
+//  Copyright (c) 2014-2019 Roman M. Yagodin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ namespace R7.Scripting
 		Directory, 
 		CommandLine, 
 		Nautilus, 
-		NautilusSelection, 
+        [Obsolete] NautilusSelection, 
 		NautilusCurrentDirectory, 
 		EnvironmentVariable 
 	};
@@ -97,12 +97,13 @@ namespace R7.Scripting
 				files = Directory.GetFiles (Directory.GetCurrentDirectory());
 			else if (source == FileSource.EnvironmentVariable)
 				files = Directory.GetFiles (Environment.GetEnvironmentVariable (path));
-			else if (source == FileSource.NautilusSelection)
+            // TODO: Remove, same as FileSource.Nautilus
+            else if (source == FileSource.NautilusSelection)
 				files = Nautilus.SelectedFiles;
 			else if (source == FileSource.NautilusCurrentDirectory)
 				files = Directory.GetFiles (Nautilus.CurrentDirectory);
 			else if (source == FileSource.Nautilus)
-				files = (Nautilus.IsNothingSelected)? Directory.GetFiles (Nautilus.CurrentDirectory) : Nautilus.SelectedFiles;
+				files = Nautilus.SelectedFiles;
 
 			// TODO: Realize commandline
 
